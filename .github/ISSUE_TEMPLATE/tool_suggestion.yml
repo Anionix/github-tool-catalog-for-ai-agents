@@ -1,0 +1,84 @@
+name: Tool suggestion
+description: Suggest a new GitHub-adjacent tool for the catalog.
+title: "Add tool: "
+labels:
+  - area:curation
+  - type:task
+  - evidence:needs-verification
+body:
+  - type: input
+    id: tool-name
+    attributes:
+      label: Tool name
+      description: Public name of the tool.
+    validations:
+      required: true
+  - type: input
+    id: public-url
+    attributes:
+      label: Public source URL
+      description: Official repository, docs, or package metadata URL.
+      placeholder: "https://github.com/owner/repo"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Proposed category
+      options:
+        - GitHub MCP / Connectors
+        - GitHub CLI and API
+        - gh Extensions
+        - Agentic Workflows
+        - Browser and Testing MCP
+        - Code Intelligence MCP
+        - Docs and Knowledge MCP
+        - Formal Proof / Lean support
+        - Git TUI
+        - Git Diff and Repo Utilities
+        - Legacy / Avoid
+        - Watchlist / Not yet recommended
+    validations:
+      required: true
+  - type: dropdown
+    id: recommendation-status
+    attributes:
+      label: Proposed recommendation status
+      options:
+        - recommended
+        - situational
+        - watch
+        - avoid
+    validations:
+      required: true
+  - type: dropdown
+    id: risk
+    attributes:
+      label: Proposed operational risk
+      options:
+        - low
+        - medium
+        - high
+    validations:
+      required: true
+  - type: textarea
+    id: workflow
+    attributes:
+      label: Workflow fit
+      description: What GitHub-adjacent workflow does this improve?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Public evidence
+      description: Link to public sources that support the summary, install command, and status.
+    validations:
+      required: true
+  - type: textarea
+    id: risk-notes
+    attributes:
+      label: Risk notes
+      description: Mention permissions, auth, browser/profile access, CI/CD actions, or filesystem writes.
+    validations:
+      required: true

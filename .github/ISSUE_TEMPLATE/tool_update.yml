@@ -1,0 +1,42 @@
+name: Tool update
+description: Update an existing catalog entry.
+title: "Update tool: "
+labels:
+  - area:curation
+  - type:task
+  - evidence:needs-verification
+body:
+  - type: input
+    id: tool-name
+    attributes:
+      label: Existing tool name
+    validations:
+      required: true
+  - type: input
+    id: public-url
+    attributes:
+      label: Public source URL
+      description: Source supporting the requested update.
+    validations:
+      required: true
+  - type: textarea
+    id: requested-change
+    attributes:
+      label: Requested change
+      description: What field, summary, install command, status, category, or note should change?
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and confirmation date
+      description: Include confirmation date for volatile facts.
+    validations:
+      required: true
+  - type: textarea
+    id: risk-impact
+    attributes:
+      label: Risk or maintenance impact
+      description: Explain whether this changes risk, status, category, or maintenance expectations.
+    validations:
+      required: true

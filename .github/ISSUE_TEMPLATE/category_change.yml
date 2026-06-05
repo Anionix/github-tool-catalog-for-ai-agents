@@ -1,0 +1,42 @@
+name: Category change
+description: Propose moving a tool or changing category boundaries.
+title: "Category change: "
+labels:
+  - area:taxonomy
+  - type:policy
+body:
+  - type: input
+    id: tool-or-category
+    attributes:
+      label: Tool or category
+      description: Name the affected tool or category.
+    validations:
+      required: true
+  - type: textarea
+    id: current-state
+    attributes:
+      label: Current state
+      description: Current category, boundary, or review concern.
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-state
+    attributes:
+      label: Proposed state
+      description: Proposed category, boundary, or review concern.
+    validations:
+      required: true
+  - type: textarea
+    id: rationale
+    attributes:
+      label: Rationale and overlap review
+      description: Explain why this improves taxonomy clarity and how overlaps are handled.
+    validations:
+      required: true
+  - type: textarea
+    id: public-evidence
+    attributes:
+      label: Public evidence
+      description: Link to sources that support the category decision, if applicable.
+    validations:
+      required: false
