@@ -8,6 +8,9 @@ categories:
   - Code Intelligence MCP
   - Docs and Knowledge MCP
   - Formal Proof / Lean support
+  - Git TUI
+  - Git Diff and Repo Utilities
+  - Legacy / Avoid
   - Watchlist / Not yet recommended
 tools:
   - name: GitHub MCP Server
@@ -34,7 +37,7 @@ tools:
     risk: medium
     recommended_status: recommended
     install: brew install gh
-    notes: Prefer gh api for exact REST or GraphQL operations that are not exposed by a connector or MCP tool.
+    notes: Prefer gh api for exact REST or GraphQL operations that are not exposed by a connector or MCP tool; treat gh skill as a gh capability rather than a separate tool entry.
 
   - name: gh-dash
     repo: dlvhdr/gh-dash
@@ -47,7 +50,7 @@ tools:
     risk: medium
     recommended_status: situational
     install: gh extension install dlvhdr/gh-dash
-    notes: Great for human review queues; not a primary AI-agent interface.
+    notes: Great for human review queues; audit third-party extension trust and Nerd Font/UI assumptions before default rollout.
 
   - name: gh-stack
     repo: github/gh-stack
@@ -60,7 +63,20 @@ tools:
     risk: high
     recommended_status: watch
     install: gh extension install github/gh-stack
-    notes: Private preview; use only when stacked PRs are enabled for the target repository.
+    notes: Preview-oriented stacked PR workflow; use only when stacked PRs are enabled and the team's auth model supports the extension.
+
+  - name: gh-news
+    repo: chmouel/gh-news
+    url: https://github.com/chmouel/gh-news
+    kind: gh-extension
+    category: gh Extensions
+    summary: GitHub CLI notification TUI for reading, filtering, previewing, muting, snoozing, and archiving GitHub notifications from the terminal.
+    agent_usefulness: low
+    human_usefulness: medium
+    risk: medium
+    recommended_status: watch
+    install: gh extension install chmouel/gh-news
+    notes: Promising notification-focused gh extension; it uses token-backed GitHub notification actions, so keep it in watch until publisher trust and team fit are reviewed.
 
   - name: GitHub Agentic Workflows
     repo: github/gh-aw
@@ -73,7 +89,7 @@ tools:
     risk: high
     recommended_status: watch
     install: gh extension install github/gh-aw
-    notes: Powerful but operationally heavy; treat permissions, billing, and workflow safety as first-class review items.
+    notes: Powerful but operationally heavy; treat permissions, billing, guardrails, and workflow safety as first-class review items.
 
   - name: GitHub Copilot CLI
     repo: github/copilot-cli
@@ -82,11 +98,11 @@ tools:
     category: Agentic Workflows
     summary: GitHub Copilot coding agent for terminal workflows, with configurable permissions and built-in GitHub MCP support.
     agent_usefulness: medium
-    human_usefulness: medium
+    human_usefulness: high
     risk: high
     recommended_status: situational
-    install: gh copilot
-    notes: A separate agent runtime rather than a Codex tool; useful for comparison or Copilot-native workflows.
+    install: brew install copilot-cli
+    notes: A separate agent runtime rather than a Codex tool; prefer this standalone CLI over retired legacy gh-copilot workflows.
 
   - name: Playwright MCP
     repo: microsoft/playwright-mcp
@@ -152,3 +168,94 @@ tools:
     recommended_status: recommended
     install: codex mcp add lean-lsp --env LEAN_PROJECT_PATH=/path/to/lean/project -- uvx lean-lsp-mcp
     notes: Strong fit for Lean repositories; scope LEAN_PROJECT_PATH to the active proof project.
+
+  - name: lazygit
+    repo: jesseduffield/lazygit
+    url: https://github.com/jesseduffield/lazygit
+    kind: git-tui
+    category: Git TUI
+    summary: Terminal UI for everyday Git workflows such as staging, committing, rebasing, stashing, branch navigation, and conflict-oriented local review.
+    agent_usefulness: medium
+    human_usefulness: high
+    risk: medium
+    recommended_status: recommended
+    install: brew install lazygit
+    notes: Best default local Git TUI; pair with gh or gh-dash for GitHub pull request and issue workflows.
+
+  - name: gitui
+    repo: gitui-org/gitui
+    url: https://github.com/gitui-org/gitui
+    kind: git-tui
+    category: Git TUI
+    summary: Fast Rust terminal UI for local Git workflows, including diff, commit, stash, blame, log, and index operations.
+    agent_usefulness: low
+    human_usefulness: medium
+    risk: medium
+    recommended_status: situational
+    install: brew install gitui
+    notes: Lightweight Rust Git TUI alternative; keep as an alternative rather than the default over lazygit.
+
+  - name: tig
+    repo: jonas/tig
+    url: https://github.com/jonas/tig
+    kind: git-tui
+    category: Git TUI
+    summary: Mature text-mode interface for browsing Git history, diffs, refs, blame, and repository state in minimal terminal environments.
+    agent_usefulness: low
+    human_usefulness: medium
+    risk: low
+    recommended_status: situational
+    install: brew install tig
+    notes: Good fallback for SSH, server, and low-dependency environments; less guided than newer Git TUIs.
+
+  - name: gitu
+    repo: altsem/gitu
+    url: https://github.com/altsem/gitu
+    kind: git-tui
+    category: Git TUI
+    summary: Magit-inspired terminal Git client for hunk and line staging, commits, fixups, rebases, stashes, and local history workflows.
+    agent_usefulness: low
+    human_usefulness: medium
+    risk: medium
+    recommended_status: watch
+    install: cargo install gitu
+    notes: Promising Magit-style TUI with narrower adoption than lazygit and gitui; keep in watch until use cases are clearer.
+
+  - name: delta
+    repo: dandavison/delta
+    url: https://github.com/dandavison/delta
+    kind: git-pager
+    category: Git Diff and Repo Utilities
+    summary: Syntax-highlighting pager for Git, diff, grep, ripgrep JSON, and blame output that improves review readability.
+    agent_usefulness: medium
+    human_usefulness: high
+    risk: low
+    recommended_status: recommended
+    install: brew install git-delta
+    notes: High-value diff and pager upgrade; improves review readability without replacing Git or GitHub workflows.
+
+  - name: ghq
+    repo: x-motemen/ghq
+    url: https://github.com/x-motemen/ghq
+    kind: repo-manager
+    category: Git Diff and Repo Utilities
+    summary: Local repository manager that standardizes clone locations and makes multi-host or polyrepo workspaces easier to navigate.
+    agent_usefulness: medium
+    human_usefulness: high
+    risk: low
+    recommended_status: situational
+    install: brew install ghq
+    notes: Useful for polyrepo and multi-host local repository organization; not a GitHub API tool.
+
+  - name: hub
+    repo: mislav/hub
+    url: https://github.com/mislav/hub
+    kind: cli
+    category: Legacy / Avoid
+    summary: Legacy command line wrapper that extends Git with GitHub operations but has largely been superseded by the official GitHub CLI.
+    agent_usefulness: low
+    human_usefulness: low
+    risk: medium
+    recommended_status: avoid
+    install: brew install hub
+    notes: Keep only to explain migration pressure toward gh; do not recommend for new GitHub CLI workflows.

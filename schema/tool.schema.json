@@ -42,7 +42,7 @@
     },
     "kind": {
       "type": "string",
-      "enum": ["mcp", "connector", "cli", "gh-extension", "agent-workflow", "agent-cli", "lsp-mcp"]
+      "enum": ["mcp", "connector", "cli", "gh-extension", "agent-workflow", "agent-cli", "lsp-mcp", "git-tui", "git-pager", "repo-manager"]
     },
     "tool": {
       "type": "object",

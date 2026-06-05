@@ -32,3 +32,8 @@ jobs:
 
       - name: Check live links
         run: python scripts/check_links.py --live
+
+      - name: Check repository status
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python scripts/check_repo_status.py
