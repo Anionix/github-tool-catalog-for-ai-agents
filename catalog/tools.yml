@@ -1,0 +1,154 @@
+schema_version: 1
+categories:
+  - GitHub MCP / Connectors
+  - GitHub CLI and API
+  - gh Extensions
+  - Agentic Workflows
+  - Browser and Testing MCP
+  - Code Intelligence MCP
+  - Docs and Knowledge MCP
+  - Formal Proof / Lean support
+  - Watchlist / Not yet recommended
+tools:
+  - name: GitHub MCP Server
+    repo: github/github-mcp-server
+    url: https://github.com/github/github-mcp-server
+    kind: mcp
+    category: GitHub MCP / Connectors
+    summary: Official GitHub MCP server for repository, issue, pull request, workflow, project, org, and gist access from AI agents.
+    agent_usefulness: high
+    human_usefulness: medium
+    risk: high
+    recommended_status: recommended
+    install: codex mcp add github --url https://api.githubcopilot.com/mcp/ --bearer-token-env-var GITHUB_PAT_TOKEN
+    notes: Use targeted toolsets or read-only mode when broad write access is unnecessary.
+
+  - name: GitHub CLI
+    repo: cli/cli
+    url: https://github.com/cli/cli
+    kind: cli
+    category: GitHub CLI and API
+    summary: Official GitHub command line interface for issues, pull requests, Actions, releases, rulesets, API calls, and authenticated automation.
+    agent_usefulness: high
+    human_usefulness: high
+    risk: medium
+    recommended_status: recommended
+    install: brew install gh
+    notes: Prefer gh api for exact REST or GraphQL operations that are not exposed by a connector or MCP tool.
+
+  - name: gh-dash
+    repo: dlvhdr/gh-dash
+    url: https://github.com/dlvhdr/gh-dash
+    kind: gh-extension
+    category: gh Extensions
+    summary: Terminal dashboard for GitHub pull requests, issues, custom sections, custom actions, and keyboard-driven triage.
+    agent_usefulness: low
+    human_usefulness: high
+    risk: medium
+    recommended_status: situational
+    install: gh extension install dlvhdr/gh-dash
+    notes: Great for human review queues; not a primary AI-agent interface.
+
+  - name: gh-stack
+    repo: github/gh-stack
+    url: https://github.com/github/gh-stack
+    kind: gh-extension
+    category: gh Extensions
+    summary: GitHub extension for stacked branches and stacked pull requests, including agent-facing skill guidance.
+    agent_usefulness: medium
+    human_usefulness: high
+    risk: high
+    recommended_status: watch
+    install: gh extension install github/gh-stack
+    notes: Private preview; use only when stacked PRs are enabled for the target repository.
+
+  - name: GitHub Agentic Workflows
+    repo: github/gh-aw
+    url: https://github.com/github/gh-aw
+    kind: agent-workflow
+    category: Agentic Workflows
+    summary: GitHub CLI extension for defining and running repository agent workflows through GitHub Actions.
+    agent_usefulness: medium
+    human_usefulness: medium
+    risk: high
+    recommended_status: watch
+    install: gh extension install github/gh-aw
+    notes: Powerful but operationally heavy; treat permissions, billing, and workflow safety as first-class review items.
+
+  - name: GitHub Copilot CLI
+    repo: github/copilot-cli
+    url: https://github.com/github/copilot-cli
+    kind: agent-cli
+    category: Agentic Workflows
+    summary: GitHub Copilot coding agent for terminal workflows, with configurable permissions and built-in GitHub MCP support.
+    agent_usefulness: medium
+    human_usefulness: medium
+    risk: high
+    recommended_status: situational
+    install: gh copilot
+    notes: A separate agent runtime rather than a Codex tool; useful for comparison or Copilot-native workflows.
+
+  - name: Playwright MCP
+    repo: microsoft/playwright-mcp
+    url: https://github.com/microsoft/playwright-mcp
+    kind: mcp
+    category: Browser and Testing MCP
+    summary: Browser automation MCP server for testing and data extraction through Playwright's accessibility-oriented model.
+    agent_usefulness: high
+    human_usefulness: medium
+    risk: high
+    recommended_status: recommended
+    install: codex mcp add playwright -- npx -y @playwright/mcp@latest
+    notes: Prefer constrained browser contexts for agent runs that do not need local user profile state.
+
+  - name: Chrome DevTools MCP
+    repo: ChromeDevTools/chrome-devtools-mcp
+    url: https://github.com/ChromeDevTools/chrome-devtools-mcp
+    kind: mcp
+    category: Browser and Testing MCP
+    summary: Chrome DevTools MCP server for navigation, script execution, screenshots, performance, network, and debugging workflows.
+    agent_usefulness: high
+    human_usefulness: medium
+    risk: high
+    recommended_status: recommended
+    install: codex mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest --slim --headless --isolated
+    notes: The slim isolated mode is a safer default for general coding-agent use.
+
+  - name: Serena
+    repo: oraios/serena
+    url: https://github.com/oraios/serena
+    kind: mcp
+    category: Code Intelligence MCP
+    summary: Semantic code retrieval and editing MCP server for coding agents, backed by language-server style project understanding.
+    agent_usefulness: high
+    human_usefulness: medium
+    risk: high
+    recommended_status: recommended
+    install: codex mcp add serena -- serena start-mcp-server --project-from-cwd --context=codex
+    notes: Best used with project-scoped startup rather than broad filesystem access.
+
+  - name: Context7
+    repo: upstash/context7
+    url: https://github.com/upstash/context7
+    kind: mcp
+    category: Docs and Knowledge MCP
+    summary: Documentation MCP server that injects current library docs and examples into agent prompts.
+    agent_usefulness: high
+    human_usefulness: medium
+    risk: medium
+    recommended_status: recommended
+    install: codex mcp add context7 -- npx -y @upstash/context7-mcp@latest
+    notes: Useful when framework or API behavior is likely to have changed since model training.
+
+  - name: lean-lsp-mcp
+    repo: oOo0oOo/lean-lsp-mcp
+    url: https://github.com/oOo0oOo/lean-lsp-mcp
+    kind: mcp
+    category: Formal Proof / Lean support
+    summary: Lean LSP MCP server for proof diagnostics, goal inspection, Loogle-style search, and optional Lean REPL acceleration.
+    agent_usefulness: high
+    human_usefulness: medium
+    risk: medium
+    recommended_status: recommended
+    install: codex mcp add lean-lsp --env LEAN_PROJECT_PATH=/path/to/lean/project -- uvx lean-lsp-mcp
+    notes: Strong fit for Lean repositories; scope LEAN_PROJECT_PATH to the active proof project.
