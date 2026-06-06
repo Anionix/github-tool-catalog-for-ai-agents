@@ -1,7 +1,9 @@
-# Catalog Audit: 2026-06-06
+# Catalog Audit: 2026-06-06 JST
 
 This audit covers the 19 entries currently listed in `catalog/tools.yml` after
-the GitHub CLI and Git TUI market-map reflection.
+the GitHub CLI and Git TUI market-map reflection. The checks were run on
+2026-06-06 in Asia/Tokyo, which corresponds to 2026-06-05 in UTC for GitHub
+commit and workflow timestamps.
 
 ## Summary
 
