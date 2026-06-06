@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/Anionix/awesome-github-tools/schema/tool.schema.json",
-  "title": "Awesome GitHub Tools Catalog",
+  "$id": "https://github.com/Anionix/github-tool-catalog-for-ai-agents/schema/tool.schema.json",
+  "title": "GitHub Tool Catalog for AI Agents",
   "type": "object",
   "required": ["schema_version", "categories", "tools"],
   "additionalProperties": false,
