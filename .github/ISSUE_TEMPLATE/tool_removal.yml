@@ -44,3 +44,10 @@ body:
       description: Name the safer default, if any.
     validations:
       required: false
+  - type: textarea
+    id: practical-cleanup
+    attributes:
+      label: Practical cleanup
+      description: Name pairs, starter kits, evaluation kits, or practical fields that must be removed or downgraded.
+    validations:
+      required: true

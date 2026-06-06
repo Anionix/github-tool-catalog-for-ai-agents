@@ -7,7 +7,7 @@ commit and workflow timestamps.
 
 ## Summary
 
-- Catalog validation: 19 tools and 12 categories.
+- Catalog validation at audit time: 19 tools and 12 categories.
 - README generation: `README.md` is up to date with `catalog/tools.yml`.
 - Link syntax: all 19 catalog URLs use valid `https://github.com/` URLs.
 - Live link check: all 19 catalog URLs returned HTTP 200.
@@ -25,6 +25,7 @@ Run from the repository root:
 ```bash
 python -B scripts/validate_catalog.py
 python -B scripts/render_readme.py --check
+python -B scripts/render_catalog_json.py --check  # v2 and later
 python -B scripts/check_links.py
 python -B scripts/check_links.py --live
 python -B scripts/check_repo_status.py

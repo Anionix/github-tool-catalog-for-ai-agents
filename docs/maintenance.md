@@ -5,8 +5,8 @@ catalog useful after the first reflection pass.
 
 ## Cadence
 
-- Pull requests: run schema validation, generated README drift check, and link
-  syntax checks without network-dependent live checks.
+- Pull requests: run schema validation, generated README and JSON drift checks,
+  and link syntax checks without network-dependent live checks.
 - Weekly scheduled workflow: run live link checks and repository status checks.
 - Monthly human review: inspect scheduled workflow results, open follow-up
   issues for broken links, archived repositories, unclear categories, or stale
@@ -30,6 +30,7 @@ PR validation must stay deterministic and network-free:
 
 - `python -B scripts/validate_catalog.py`
 - `python -B scripts/render_readme.py --check`
+- `python -B scripts/render_catalog_json.py --check`
 - `python -B scripts/check_links.py`
 
 Scheduled and manual validation can use the network:
@@ -69,3 +70,17 @@ When a scheduled check fails:
   public canonical source exists.
 - Stale but reachable repositories: review context before changing status; old
   `pushed_at` alone is warning evidence, not automatic removal.
+
+## Practical Advice Downgrades
+
+Practical advice must move with the catalog decision:
+
+- If an entry moves to `watch`, set `daily_use` to `not_default`, remove it from
+  starter kits, and keep it only in evaluation kits when a caveat is present.
+- If an entry moves to `avoid`, remove it from all kits and `pairs_with`
+  references.
+- If a repository becomes archived, disabled, broken, or superseded, review
+  `cautious_start`, `guardrails`, `pairs_with`, starter kits, and evaluation
+  kits in the same change.
+- If a high-risk tool remains recommended, keep the guardrail visible next to
+  practical advice in generated README output.

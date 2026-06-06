@@ -37,7 +37,6 @@ body:
         - Git TUI
         - Git Diff and Repo Utilities
         - Legacy / Avoid
-        - Watchlist / Not yet recommended
     validations:
       required: true
   - type: dropdown
@@ -66,6 +65,13 @@ body:
     attributes:
       label: Workflow fit
       description: What GitHub-adjacent workflow does this improve?
+    validations:
+      required: true
+  - type: textarea
+    id: practical-advice
+    attributes:
+      label: Practical use
+      description: Describe daily_use, agent_use, human_use, cautious_start, guardrails, and likely pairs or kits.
     validations:
       required: true
   - type: textarea

@@ -23,7 +23,14 @@ body:
     id: requested-change
     attributes:
       label: Requested change
-      description: What field, summary, install command, status, category, or note should change?
+      description: What field, summary, install command, status, category, note, or practical field should change?
+    validations:
+      required: true
+  - type: textarea
+    id: practical-impact
+    attributes:
+      label: Practical impact
+      description: Explain whether daily_use, agent_use, human_use, cautious_start, guardrails, pairs, starter kits, or evaluation kits should change.
     validations:
       required: true
   - type: textarea

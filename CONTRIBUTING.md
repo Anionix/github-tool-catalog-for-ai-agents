@@ -7,8 +7,9 @@ documentation, or proof-oriented development.
 
 ## Source of Truth
 
-Edit `catalog/tools.yml` for catalog entries. `README.md` is generated from the
-catalog; do not edit generated catalog sections by hand.
+Edit `catalog/tools.yml` for catalog entries. `README.md` and
+`dist/catalog.v2.json` are generated from the catalog; do not edit generated
+catalog sections or generated JSON by hand.
 
 Use these docs while preparing a change:
 
@@ -21,10 +22,22 @@ Use these docs while preparing a change:
 
 Every catalog entry needs:
 
-- `name`, `repo`, `url`, `kind`, and `category`
+- `id`, `name`, `repo`, `url`, `kind`, and `category`
 - `summary`, `install`, and optional `notes`
 - `agent_usefulness`, `human_usefulness`, `risk`, and
   `recommended_status`
+- `install_methods`, `practical`, and `evidence`
+
+Practical fields are part of the public recommendation surface. Keep them short,
+specific, and conservative:
+
+- `daily_use` must not make `watch` or `avoid` entries look like defaults.
+- `agent_use` must name the supervision boundary for token, write, browser,
+  filesystem, or workflow access.
+- `human_use` should describe the human decision or review task.
+- `cautious_start` should describe the lowest-risk documented first step.
+- `guardrails`, `pairs_with`, starter kits, and evaluation kits must stay
+  aligned with recommendation status and risk.
 
 Use conservative risk ratings for tools that write files, run commands, access
 authenticated services, control browsers, or trigger CI/CD.
@@ -60,6 +73,7 @@ Run the deterministic checks:
 ```bash
 python -B scripts/validate_catalog.py
 python -B scripts/render_readme.py --check
+python -B scripts/render_catalog_json.py --check
 python -B scripts/check_links.py
 ```
 
