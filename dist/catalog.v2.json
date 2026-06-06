@@ -1,0 +1,1280 @@
+{
+  "schema_version": 2,
+  "source": {
+    "path": "catalog/tools.yml",
+    "sha256": "dadf220adac9fc4d065a248de216e047c63d3b0e162c0f9069504e85bb21fb1a",
+    "schema": "schema/catalog.v2.schema.json"
+  },
+  "categories": [
+    {
+      "id": "github-mcp-connectors",
+      "name": "GitHub MCP / Connectors",
+      "order": 1
+    },
+    {
+      "id": "github-cli-and-api",
+      "name": "GitHub CLI and API",
+      "order": 2
+    },
+    {
+      "id": "gh-extensions",
+      "name": "gh Extensions",
+      "order": 3
+    },
+    {
+      "id": "agentic-workflows",
+      "name": "Agentic Workflows",
+      "order": 4
+    },
+    {
+      "id": "browser-and-testing-mcp",
+      "name": "Browser and Testing MCP",
+      "order": 5
+    },
+    {
+      "id": "code-intelligence-mcp",
+      "name": "Code Intelligence MCP",
+      "order": 6
+    },
+    {
+      "id": "docs-and-knowledge-mcp",
+      "name": "Docs and Knowledge MCP",
+      "order": 7
+    },
+    {
+      "id": "formal-proof-lean-support",
+      "name": "Formal Proof / Lean support",
+      "order": 8
+    },
+    {
+      "id": "git-tui",
+      "name": "Git TUI",
+      "order": 9
+    },
+    {
+      "id": "git-diff-and-repo-utilities",
+      "name": "Git Diff and Repo Utilities",
+      "order": 10
+    },
+    {
+      "id": "legacy-avoid",
+      "name": "Legacy / Avoid",
+      "order": 11
+    }
+  ],
+  "tools": [
+    {
+      "id": "github-mcp-server",
+      "name": "GitHub MCP Server",
+      "repo": "github/github-mcp-server",
+      "url": "https://github.com/github/github-mcp-server",
+      "kind": "mcp",
+      "category_id": "github-mcp-connectors",
+      "category": "GitHub MCP / Connectors",
+      "summary": "Official GitHub MCP server for repository, issue, pull request, workflow, project, org, and gist access from AI agents.",
+      "ratings": {
+        "agent": "high",
+        "human": "medium",
+        "risk": "high",
+        "status": "recommended"
+      },
+      "install": {
+        "display": "codex mcp add github --url https://api.githubcopilot.com/mcp/ --bearer-token-env-var GITHUB_PAT_TOKEN",
+        "methods": [
+          {
+            "kind": "codex-mcp",
+            "command": "codex mcp add github --url https://api.githubcopilot.com/mcp/ --bearer-token-env-var GITHUB_PAT_TOKEN"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "agent-github-api",
+          "issues-prs",
+          "workflow-readback"
+        ],
+        "daily_use": "reviewed",
+        "agent_use": "Let an agent inspect and update GitHub repository, issue, pull request, workflow, project, org, or gist state when the task explicitly needs GitHub context.",
+        "human_use": "Use through an agent when GitHub state needs exact readback or controlled repository actions.",
+        "cautious_start": "Start with the narrowest available token scope or read-only toolset before allowing write operations.",
+        "guardrails": [
+          "limited-token",
+          "read-only-mode",
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for exact REST or GraphQL fallback and auditable commands.",
+            "combined_risk": "high"
+          },
+          {
+            "tool_id": "serena",
+            "reason": "Combine GitHub state with project-scoped code navigation.",
+            "combined_risk": "high"
+          },
+          {
+            "tool_id": "context7",
+            "reason": "Fetch current docs before changing dependency-sensitive code.",
+            "combined_risk": "high"
+          }
+        ]
+      },
+      "notes": "Use targeted toolsets or read-only mode when broad write access is unnecessary.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/github/github-mcp-server"
+        }
+      ]
+    },
+    {
+      "id": "github-cli",
+      "name": "GitHub CLI",
+      "repo": "cli/cli",
+      "url": "https://github.com/cli/cli",
+      "kind": "cli",
+      "category_id": "github-cli-and-api",
+      "category": "GitHub CLI and API",
+      "summary": "Official GitHub command line interface for issues, pull requests, Actions, releases, rulesets, API calls, and authenticated automation.",
+      "ratings": {
+        "agent": "high",
+        "human": "high",
+        "risk": "medium",
+        "status": "recommended"
+      },
+      "install": {
+        "display": "brew install gh",
+        "methods": [
+          {
+            "kind": "homebrew",
+            "command": "brew install gh"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "github-api",
+          "pr-review",
+          "actions-readback",
+          "release-workflows"
+        ],
+        "daily_use": "routine",
+        "agent_use": "Use for auditable GitHub operations, exact API calls, and PR/check readback when connector coverage is insufficient.",
+        "human_use": "Use as the baseline command line for issues, pull requests, Actions, releases, and authenticated automation.",
+        "cautious_start": "Authenticate with the minimum scopes needed for the current repository or organization task.",
+        "guardrails": [
+          "limited-token",
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "lazygit",
+            "reason": "Use gh for GitHub state and lazygit for local branch and commit work.",
+            "combined_risk": "medium"
+          },
+          {
+            "tool_id": "delta",
+            "reason": "Use delta to make gh checkout and local review diffs easier to inspect.",
+            "combined_risk": "medium"
+          },
+          {
+            "tool_id": "github-mcp-server",
+            "reason": "Use gh as an auditable fallback for agent-facing GitHub MCP flows.",
+            "combined_risk": "high"
+          }
+        ]
+      },
+      "notes": "Prefer gh api for exact REST or GraphQL operations that are not exposed by a connector or MCP tool; treat gh skill as a gh capability rather than a separate tool entry.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/cli/cli"
+        }
+      ]
+    },
+    {
+      "id": "gh-dash",
+      "name": "gh-dash",
+      "repo": "dlvhdr/gh-dash",
+      "url": "https://github.com/dlvhdr/gh-dash",
+      "kind": "gh-extension",
+      "category_id": "gh-extensions",
+      "category": "gh Extensions",
+      "summary": "Terminal dashboard for GitHub pull requests, issues, custom sections, custom actions, and keyboard-driven triage.",
+      "ratings": {
+        "agent": "low",
+        "human": "high",
+        "risk": "medium",
+        "status": "situational"
+      },
+      "install": {
+        "display": "gh extension install dlvhdr/gh-dash",
+        "methods": [
+          {
+            "kind": "gh-extension",
+            "command": "gh extension install dlvhdr/gh-dash"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "human-triage",
+          "pr-queues",
+          "issue-queues"
+        ],
+        "daily_use": "reviewed",
+        "agent_use": "Low fit for autonomous agents; treat as a human-facing queue dashboard.",
+        "human_use": "Use for keyboard-driven PR and issue triage when a terminal dashboard improves review flow.",
+        "cautious_start": "Install only after reviewing third-party extension trust and terminal UI assumptions for the team.",
+        "guardrails": [
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "gh remains the underlying authenticated GitHub control plane.",
+            "combined_risk": "medium"
+          },
+          {
+            "tool_id": "lazygit",
+            "reason": "Use gh-dash for queues and lazygit for local branch/diff workflows.",
+            "combined_risk": "medium"
+          }
+        ]
+      },
+      "notes": "Great for human review queues; audit third-party extension trust and Nerd Font/UI assumptions before default rollout.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/dlvhdr/gh-dash"
+        }
+      ]
+    },
+    {
+      "id": "gh-stack",
+      "name": "gh-stack",
+      "repo": "github/gh-stack",
+      "url": "https://github.com/github/gh-stack",
+      "kind": "gh-extension",
+      "category_id": "gh-extensions",
+      "category": "gh Extensions",
+      "summary": "GitHub extension for stacked branches and stacked pull requests, including agent-facing skill guidance.",
+      "ratings": {
+        "agent": "medium",
+        "human": "high",
+        "risk": "high",
+        "status": "watch"
+      },
+      "install": {
+        "display": "gh extension install github/gh-stack",
+        "methods": [
+          {
+            "kind": "gh-extension",
+            "command": "gh extension install github/gh-stack"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "stacked-prs",
+          "branch-stacks",
+          "team-evaluation"
+        ],
+        "daily_use": "not_default",
+        "agent_use": "Evaluate only for teams that explicitly run stacked PR workflows with review boundaries.",
+        "human_use": "Use when a team has adopted stacked pull requests and understands the extension workflow.",
+        "cautious_start": "Try in a sandbox repository before using it on production branches.",
+        "guardrails": [
+          "sandbox-repo",
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for direct PR readback and fallback operations.",
+            "combined_risk": "high"
+          }
+        ]
+      },
+      "notes": "Preview-oriented stacked PR workflow; use only when stacked PRs are enabled and the team's auth model supports the extension.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/github/gh-stack"
+        }
+      ]
+    },
+    {
+      "id": "gh-news",
+      "name": "gh-news",
+      "repo": "chmouel/gh-news",
+      "url": "https://github.com/chmouel/gh-news",
+      "kind": "gh-extension",
+      "category_id": "gh-extensions",
+      "category": "gh Extensions",
+      "summary": "GitHub CLI notification TUI for reading, filtering, previewing, muting, snoozing, and archiving GitHub notifications from the terminal.",
+      "ratings": {
+        "agent": "low",
+        "human": "medium",
+        "risk": "medium",
+        "status": "watch"
+      },
+      "install": {
+        "display": "gh extension install chmouel/gh-news",
+        "methods": [
+          {
+            "kind": "gh-extension",
+            "command": "gh extension install chmouel/gh-news"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "notifications",
+          "human-triage",
+          "team-evaluation"
+        ],
+        "daily_use": "not_default",
+        "agent_use": "Not an agent default; notifications usually need human prioritization.",
+        "human_use": "Evaluate for terminal notification review when the team accepts the extension trust model.",
+        "cautious_start": "Review publisher trust and token-backed notification actions before routine use.",
+        "guardrails": [
+          "limited-token",
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for exact issue and PR actions after notification triage.",
+            "combined_risk": "medium"
+          }
+        ]
+      },
+      "notes": "Promising notification-focused gh extension; it uses token-backed GitHub notification actions, so keep it in watch until publisher trust and team fit are reviewed.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/chmouel/gh-news"
+        }
+      ]
+    },
+    {
+      "id": "github-agentic-workflows",
+      "name": "GitHub Agentic Workflows",
+      "repo": "github/gh-aw",
+      "url": "https://github.com/github/gh-aw",
+      "kind": "agent-workflow",
+      "category_id": "agentic-workflows",
+      "category": "Agentic Workflows",
+      "summary": "GitHub CLI extension for defining and running repository agent workflows through GitHub Actions.",
+      "ratings": {
+        "agent": "medium",
+        "human": "medium",
+        "risk": "high",
+        "status": "watch"
+      },
+      "install": {
+        "display": "gh extension install github/gh-aw",
+        "methods": [
+          {
+            "kind": "gh-extension",
+            "command": "gh extension install github/gh-aw"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "agentic-workflows",
+          "github-actions",
+          "team-evaluation"
+        ],
+        "daily_use": "not_default",
+        "agent_use": "Evaluate for repository agent workflows only with explicit billing, permission, and review boundaries.",
+        "human_use": "Use to prototype GitHub Actions-backed agent workflows after operational review.",
+        "cautious_start": "Start in a sandbox repository with clear workflow permissions and cost boundaries.",
+        "guardrails": [
+          "sandbox-repo",
+          "human-approval",
+          "non-production"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for workflow run and PR state readback.",
+            "combined_risk": "high"
+          },
+          {
+            "tool_id": "github-copilot-cli",
+            "reason": "Compare local terminal agent runtime with Actions-backed workflow execution.",
+            "combined_risk": "high"
+          }
+        ]
+      },
+      "notes": "Powerful but operationally heavy; treat permissions, billing, guardrails, and workflow safety as first-class review items.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/github/gh-aw"
+        }
+      ]
+    },
+    {
+      "id": "github-copilot-cli",
+      "name": "GitHub Copilot CLI",
+      "repo": "github/copilot-cli",
+      "url": "https://github.com/github/copilot-cli",
+      "kind": "agent-cli",
+      "category_id": "agentic-workflows",
+      "category": "Agentic Workflows",
+      "summary": "GitHub Copilot coding agent for terminal workflows, with configurable permissions and built-in GitHub MCP support.",
+      "ratings": {
+        "agent": "medium",
+        "human": "high",
+        "risk": "high",
+        "status": "situational"
+      },
+      "install": {
+        "display": "brew install copilot-cli",
+        "methods": [
+          {
+            "kind": "homebrew",
+            "command": "brew install copilot-cli"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "terminal-agent",
+          "agent-runtime",
+          "human-supervised-coding"
+        ],
+        "daily_use": "reviewed",
+        "agent_use": "Use as a separate terminal-native agent runtime when the workflow calls for Copilot CLI rather than Codex tooling.",
+        "human_use": "Use for human-supervised terminal agent tasks with configured permissions.",
+        "cautious_start": "Review permissions and repository write boundaries before using it on important branches.",
+        "guardrails": [
+          "human-approval",
+          "project-scope"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for explicit GitHub state verification around agent changes.",
+            "combined_risk": "high"
+          },
+          {
+            "tool_id": "context7",
+            "reason": "Use current docs to reduce stale implementation assumptions.",
+            "combined_risk": "high"
+          }
+        ]
+      },
+      "notes": "A separate agent runtime rather than a Codex tool; prefer this standalone CLI over retired legacy gh-copilot workflows.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/github/copilot-cli"
+        }
+      ]
+    },
+    {
+      "id": "playwright-mcp",
+      "name": "Playwright MCP",
+      "repo": "microsoft/playwright-mcp",
+      "url": "https://github.com/microsoft/playwright-mcp",
+      "kind": "mcp",
+      "category_id": "browser-and-testing-mcp",
+      "category": "Browser and Testing MCP",
+      "summary": "Browser automation MCP server for testing and data extraction through Playwright's accessibility-oriented model.",
+      "ratings": {
+        "agent": "high",
+        "human": "medium",
+        "risk": "high",
+        "status": "recommended"
+      },
+      "install": {
+        "display": "codex mcp add playwright -- npx -y @playwright/mcp@latest",
+        "methods": [
+          {
+            "kind": "codex-mcp",
+            "command": "codex mcp add playwright -- npx -y @playwright/mcp@latest"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "browser-validation",
+          "ui-testing",
+          "agent-e2e"
+        ],
+        "daily_use": "reviewed",
+        "agent_use": "Let an agent validate web behavior through Playwright accessibility and browser automation flows.",
+        "human_use": "Use when browser validation needs reproducible automation rather than manual clicking.",
+        "cautious_start": "Run against a constrained browser context and non-production target when possible.",
+        "guardrails": [
+          "isolated-browser",
+          "no-user-profile",
+          "non-production"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh to read back PR checks after browser validation.",
+            "combined_risk": "high"
+          },
+          {
+            "tool_id": "chrome-devtools-mcp",
+            "reason": "Use DevTools-focused diagnostics when Playwright behavior needs deeper inspection.",
+            "combined_risk": "high"
+          }
+        ]
+      },
+      "notes": "Prefer constrained browser contexts for agent runs that do not need local user profile state.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/microsoft/playwright-mcp"
+        }
+      ]
+    },
+    {
+      "id": "chrome-devtools-mcp",
+      "name": "Chrome DevTools MCP",
+      "repo": "ChromeDevTools/chrome-devtools-mcp",
+      "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      "kind": "mcp",
+      "category_id": "browser-and-testing-mcp",
+      "category": "Browser and Testing MCP",
+      "summary": "Chrome DevTools MCP server for navigation, script execution, screenshots, performance, network, and debugging workflows.",
+      "ratings": {
+        "agent": "high",
+        "human": "medium",
+        "risk": "high",
+        "status": "recommended"
+      },
+      "install": {
+        "display": "codex mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest --slim --headless --isolated",
+        "methods": [
+          {
+            "kind": "codex-mcp",
+            "command": "codex mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest --slim --headless --isolated"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "browser-debugging",
+          "performance",
+          "network-inspection"
+        ],
+        "daily_use": "reviewed",
+        "agent_use": "Let an agent inspect navigation, screenshots, performance, network, and console behavior in a constrained Chrome context.",
+        "human_use": "Use for browser debugging when DevTools-level inspection is more useful than a test runner.",
+        "cautious_start": "Use slim, headless, isolated mode unless user profile state is explicitly required.",
+        "guardrails": [
+          "isolated-browser",
+          "no-user-profile",
+          "non-production"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "playwright-mcp",
+            "reason": "Use Playwright for repeatable flows and DevTools MCP for deeper debugging.",
+            "combined_risk": "high"
+          },
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh to connect findings to PR and check readback.",
+            "combined_risk": "high"
+          }
+        ]
+      },
+      "notes": "The slim isolated mode is a safer default for general coding-agent use.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/ChromeDevTools/chrome-devtools-mcp"
+        }
+      ]
+    },
+    {
+      "id": "serena",
+      "name": "Serena",
+      "repo": "oraios/serena",
+      "url": "https://github.com/oraios/serena",
+      "kind": "mcp",
+      "category_id": "code-intelligence-mcp",
+      "category": "Code Intelligence MCP",
+      "summary": "Semantic code retrieval and editing MCP server for coding agents, backed by language-server style project understanding.",
+      "ratings": {
+        "agent": "high",
+        "human": "medium",
+        "risk": "high",
+        "status": "recommended"
+      },
+      "install": {
+        "display": "codex mcp add serena -- serena start-mcp-server --project-from-cwd --context=codex",
+        "methods": [
+          {
+            "kind": "codex-mcp",
+            "command": "codex mcp add serena -- serena start-mcp-server --project-from-cwd --context=codex"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "code-intelligence",
+          "repo-navigation",
+          "agent-editing"
+        ],
+        "daily_use": "reviewed",
+        "agent_use": "Let an agent navigate and edit a repository with project-scoped semantic code understanding.",
+        "human_use": "Use through an agent when semantic navigation is faster than plain text search.",
+        "cautious_start": "Start with project-scoped startup from the active repository, not broad filesystem access.",
+        "guardrails": [
+          "project-scope",
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for PR and issue state while Serena handles code context.",
+            "combined_risk": "high"
+          },
+          {
+            "tool_id": "context7",
+            "reason": "Use docs context before editing framework-sensitive code.",
+            "combined_risk": "high"
+          }
+        ]
+      },
+      "notes": "Best used with project-scoped startup rather than broad filesystem access.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/oraios/serena"
+        }
+      ]
+    },
+    {
+      "id": "context7",
+      "name": "Context7",
+      "repo": "upstash/context7",
+      "url": "https://github.com/upstash/context7",
+      "kind": "mcp",
+      "category_id": "docs-and-knowledge-mcp",
+      "category": "Docs and Knowledge MCP",
+      "summary": "Documentation MCP server that injects current library docs and examples into agent prompts.",
+      "ratings": {
+        "agent": "high",
+        "human": "medium",
+        "risk": "medium",
+        "status": "recommended"
+      },
+      "install": {
+        "display": "codex mcp add context7 -- npx -y @upstash/context7-mcp@latest",
+        "methods": [
+          {
+            "kind": "codex-mcp",
+            "command": "codex mcp add context7 -- npx -y @upstash/context7-mcp@latest"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "current-docs",
+          "framework-apis",
+          "agent-research"
+        ],
+        "daily_use": "routine",
+        "agent_use": "Fetch current library docs and examples before implementing against APIs likely to change.",
+        "human_use": "Use as an agent-assisted documentation source when current API behavior matters.",
+        "cautious_start": "Use it to support implementation claims, then verify behavior with project tests or official sources.",
+        "guardrails": [
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "serena",
+            "reason": "Combine current docs with project-scoped code navigation.",
+            "combined_risk": "medium"
+          },
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh to read back PR and CI state after doc-informed changes.",
+            "combined_risk": "medium"
+          }
+        ]
+      },
+      "notes": "Useful when framework or API behavior is likely to have changed since model training.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/upstash/context7"
+        }
+      ]
+    },
+    {
+      "id": "lean-lsp-mcp",
+      "name": "lean-lsp-mcp",
+      "repo": "oOo0oOo/lean-lsp-mcp",
+      "url": "https://github.com/oOo0oOo/lean-lsp-mcp",
+      "kind": "mcp",
+      "category_id": "formal-proof-lean-support",
+      "category": "Formal Proof / Lean support",
+      "summary": "Lean LSP MCP server for proof diagnostics, goal inspection, Loogle-style search, and optional Lean REPL acceleration.",
+      "ratings": {
+        "agent": "high",
+        "human": "medium",
+        "risk": "medium",
+        "status": "recommended"
+      },
+      "install": {
+        "display": "codex mcp add lean-lsp --env LEAN_PROJECT_PATH=/path/to/lean/project -- uvx lean-lsp-mcp",
+        "methods": [
+          {
+            "kind": "codex-mcp",
+            "command": "codex mcp add lean-lsp --env LEAN_PROJECT_PATH=/path/to/lean/project -- uvx lean-lsp-mcp"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "lean-proof",
+          "proof-diagnostics",
+          "formal-methods"
+        ],
+        "daily_use": "specialist",
+        "agent_use": "Let an agent inspect Lean proof goals, diagnostics, and search in a bound Lean project.",
+        "human_use": "Use for proof development support when working in Lean repositories.",
+        "cautious_start": "Bind LEAN_PROJECT_PATH to the active Lean project before exposing proof tooling.",
+        "guardrails": [
+          "project-scope"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for PR and check readback around proof changes.",
+            "combined_risk": "medium"
+          },
+          {
+            "tool_id": "delta",
+            "reason": "Use delta for readable proof diff review.",
+            "combined_risk": "medium"
+          }
+        ]
+      },
+      "notes": "Strong fit for Lean repositories; scope LEAN_PROJECT_PATH to the active proof project.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/oOo0oOo/lean-lsp-mcp"
+        }
+      ]
+    },
+    {
+      "id": "lazygit",
+      "name": "lazygit",
+      "repo": "jesseduffield/lazygit",
+      "url": "https://github.com/jesseduffield/lazygit",
+      "kind": "git-tui",
+      "category_id": "git-tui",
+      "category": "Git TUI",
+      "summary": "Terminal UI for everyday Git workflows such as staging, committing, rebasing, stashing, branch navigation, and conflict-oriented local review.",
+      "ratings": {
+        "agent": "medium",
+        "human": "high",
+        "risk": "medium",
+        "status": "recommended"
+      },
+      "install": {
+        "display": "brew install lazygit",
+        "methods": [
+          {
+            "kind": "homebrew",
+            "command": "brew install lazygit"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "local-git",
+          "branch-review",
+          "staging"
+        ],
+        "daily_use": "routine",
+        "agent_use": "Medium fit; useful mainly when a human supervises local Git state around agent changes.",
+        "human_use": "Use for everyday staging, commits, rebases, stashes, branch navigation, and conflict review.",
+        "cautious_start": "Review staged changes before committing or pushing.",
+        "guardrails": [
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for GitHub PR state and lazygit for local Git operations.",
+            "combined_risk": "medium"
+          },
+          {
+            "tool_id": "delta",
+            "reason": "Use delta to make local diff review more readable.",
+            "combined_risk": "medium"
+          }
+        ]
+      },
+      "notes": "Best default local Git TUI; pair with gh or gh-dash for GitHub pull request and issue workflows.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/jesseduffield/lazygit"
+        }
+      ]
+    },
+    {
+      "id": "gitui",
+      "name": "gitui",
+      "repo": "gitui-org/gitui",
+      "url": "https://github.com/gitui-org/gitui",
+      "kind": "git-tui",
+      "category_id": "git-tui",
+      "category": "Git TUI",
+      "summary": "Fast Rust terminal UI for local Git workflows, including diff, commit, stash, blame, log, and index operations.",
+      "ratings": {
+        "agent": "low",
+        "human": "medium",
+        "risk": "medium",
+        "status": "situational"
+      },
+      "install": {
+        "display": "brew install gitui",
+        "methods": [
+          {
+            "kind": "homebrew",
+            "command": "brew install gitui"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "local-git",
+          "rust-tui",
+          "terminal-review"
+        ],
+        "daily_use": "specialist",
+        "agent_use": "Low fit for agents; use mainly as a human local Git interface.",
+        "human_use": "Use as a lightweight Rust TUI alternative for local Git operations.",
+        "cautious_start": "Keep it as an alternative until it clearly fits the user workflow better than lazygit.",
+        "guardrails": [
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for GitHub state and gitui for local Git state.",
+            "combined_risk": "medium"
+          },
+          {
+            "tool_id": "delta",
+            "reason": "Use delta for readable diffs around local TUI work.",
+            "combined_risk": "medium"
+          }
+        ]
+      },
+      "notes": "Lightweight Rust Git TUI alternative; keep as an alternative rather than the default over lazygit.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/gitui-org/gitui"
+        }
+      ]
+    },
+    {
+      "id": "tig",
+      "name": "tig",
+      "repo": "jonas/tig",
+      "url": "https://github.com/jonas/tig",
+      "kind": "git-tui",
+      "category_id": "git-tui",
+      "category": "Git TUI",
+      "summary": "Mature text-mode interface for browsing Git history, diffs, refs, blame, and repository state in minimal terminal environments.",
+      "ratings": {
+        "agent": "low",
+        "human": "medium",
+        "risk": "low",
+        "status": "situational"
+      },
+      "install": {
+        "display": "brew install tig",
+        "methods": [
+          {
+            "kind": "homebrew",
+            "command": "brew install tig"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "git-history",
+          "ssh-terminal",
+          "minimal-environments"
+        ],
+        "daily_use": "specialist",
+        "agent_use": "Low fit for agents; use as a simple history and diff browser in constrained terminals.",
+        "human_use": "Use for browsing history, blame, refs, and diffs in minimal terminal environments.",
+        "cautious_start": "Use for read-heavy inspection before changing local Git state.",
+        "guardrails": [
+          "human-approval"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for GitHub operations while tig stays local and read-oriented.",
+            "combined_risk": "low"
+          },
+          {
+            "tool_id": "delta",
+            "reason": "Use delta when richer diff rendering is available.",
+            "combined_risk": "low"
+          }
+        ]
+      },
+      "notes": "Good fallback for SSH, server, and low-dependency environments; less guided than newer Git TUIs.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/jonas/tig"
+        }
+      ]
+    },
+    {
+      "id": "gitu",
+      "name": "gitu",
+      "repo": "altsem/gitu",
+      "url": "https://github.com/altsem/gitu",
+      "kind": "git-tui",
+      "category_id": "git-tui",
+      "category": "Git TUI",
+      "summary": "Magit-inspired terminal Git client for hunk and line staging, commits, fixups, rebases, stashes, and local history workflows.",
+      "ratings": {
+        "agent": "low",
+        "human": "medium",
+        "risk": "medium",
+        "status": "watch"
+      },
+      "install": {
+        "display": "cargo install gitu",
+        "methods": [
+          {
+            "kind": "cargo",
+            "command": "cargo install gitu"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "magit-style-git",
+          "hunk-staging",
+          "team-evaluation"
+        ],
+        "daily_use": "not_default",
+        "agent_use": "Not an agent default; evaluate only for local Git workflows that need Magit-style interaction.",
+        "human_use": "Evaluate for hunk and line staging when the team wants a Magit-inspired terminal client.",
+        "cautious_start": "Try on a non-critical branch before adopting it as a daily Git interface.",
+        "guardrails": [
+          "human-approval",
+          "sandbox-repo"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "delta",
+            "reason": "Use delta for readable diff review while evaluating local Git UX.",
+            "combined_risk": "medium"
+          }
+        ]
+      },
+      "notes": "Promising Magit-style TUI with narrower adoption than lazygit and gitui; keep in watch until use cases are clearer.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/altsem/gitu"
+        }
+      ]
+    },
+    {
+      "id": "delta",
+      "name": "delta",
+      "repo": "dandavison/delta",
+      "url": "https://github.com/dandavison/delta",
+      "kind": "git-pager",
+      "category_id": "git-diff-and-repo-utilities",
+      "category": "Git Diff and Repo Utilities",
+      "summary": "Syntax-highlighting pager for Git, diff, grep, ripgrep JSON, and blame output that improves review readability.",
+      "ratings": {
+        "agent": "medium",
+        "human": "high",
+        "risk": "low",
+        "status": "recommended"
+      },
+      "install": {
+        "display": "brew install git-delta",
+        "methods": [
+          {
+            "kind": "homebrew",
+            "command": "brew install git-delta"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "diff-review",
+          "readability",
+          "git-pager"
+        ],
+        "daily_use": "routine",
+        "agent_use": "Use to make diff and review output easier for humans supervising agent changes.",
+        "human_use": "Use as a pager upgrade for readable Git, diff, grep, ripgrep JSON, and blame output.",
+        "cautious_start": "Configure as a pager first; it improves review readability without changing GitHub state.",
+        "guardrails": [],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use delta to review local diffs around gh-driven PR workflows.",
+            "combined_risk": "medium"
+          },
+          {
+            "tool_id": "lazygit",
+            "reason": "Use delta for readable diffs and lazygit for local Git actions.",
+            "combined_risk": "medium"
+          }
+        ]
+      },
+      "notes": "High-value diff and pager upgrade; improves review readability without replacing Git or GitHub workflows.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/dandavison/delta"
+        }
+      ]
+    },
+    {
+      "id": "ghq",
+      "name": "ghq",
+      "repo": "x-motemen/ghq",
+      "url": "https://github.com/x-motemen/ghq",
+      "kind": "repo-manager",
+      "category_id": "git-diff-and-repo-utilities",
+      "category": "Git Diff and Repo Utilities",
+      "summary": "Local repository manager that standardizes clone locations and makes multi-host or polyrepo workspaces easier to navigate.",
+      "ratings": {
+        "agent": "medium",
+        "human": "high",
+        "risk": "low",
+        "status": "situational"
+      },
+      "install": {
+        "display": "brew install ghq",
+        "methods": [
+          {
+            "kind": "homebrew",
+            "command": "brew install ghq"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "repo-organization",
+          "polyrepo",
+          "local-workspaces"
+        ],
+        "daily_use": "reviewed",
+        "agent_use": "Medium fit for agents that need predictable local clone locations across many repositories.",
+        "human_use": "Use to standardize clone locations and navigate multi-host or polyrepo workspaces.",
+        "cautious_start": "Treat it as local repository organization, not as GitHub API or PR tooling.",
+        "guardrails": [
+          "project-scope"
+        ],
+        "pairs_with": [
+          {
+            "tool_id": "github-cli",
+            "reason": "Use gh for GitHub operations after ghq organizes local repositories.",
+            "combined_risk": "low"
+          },
+          {
+            "tool_id": "lazygit",
+            "reason": "Use lazygit inside repositories managed by ghq.",
+            "combined_risk": "medium"
+          }
+        ]
+      },
+      "notes": "Useful for polyrepo and multi-host local repository organization; not a GitHub API tool.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/x-motemen/ghq"
+        }
+      ]
+    },
+    {
+      "id": "hub",
+      "name": "hub",
+      "repo": "mislav/hub",
+      "url": "https://github.com/mislav/hub",
+      "kind": "cli",
+      "category_id": "legacy-avoid",
+      "category": "Legacy / Avoid",
+      "summary": "Legacy command line wrapper that extends Git with GitHub operations but has largely been superseded by the official GitHub CLI.",
+      "ratings": {
+        "agent": "low",
+        "human": "low",
+        "risk": "medium",
+        "status": "avoid"
+      },
+      "install": {
+        "display": "brew install hub",
+        "methods": [
+          {
+            "kind": "homebrew",
+            "command": "brew install hub"
+          }
+        ]
+      },
+      "practical": {
+        "best_for": [
+          "legacy-migration",
+          "non-recommendation"
+        ],
+        "daily_use": "not_default",
+        "agent_use": "Do not use for new agent workflows; prefer GitHub CLI.",
+        "human_use": "Keep only as migration context for legacy users moving to gh.",
+        "cautious_start": "Do not start new GitHub workflows with hub; migrate to gh instead.",
+        "guardrails": [
+          "human-approval"
+        ],
+        "pairs_with": []
+      },
+      "notes": "Keep only to explain migration pressure toward gh; do not recommend for new GitHub CLI workflows.",
+      "evidence": [
+        {
+          "type": "official_repo",
+          "url": "https://github.com/mislav/hub"
+        }
+      ]
+    }
+  ],
+  "starter_kits": [
+    {
+      "id": "agent-repo-maintenance",
+      "title": "Agent repo maintenance",
+      "audience": "agent",
+      "purpose": "Inspect GitHub state, navigate code, fetch current docs, and prepare supervised repository changes.",
+      "core_tools": [
+        "github-cli",
+        "github-mcp-server",
+        "serena",
+        "context7"
+      ],
+      "optional_tools": [],
+      "guardrails": [
+        "limited-token",
+        "read-only-mode",
+        "project-scope",
+        "human-approval"
+      ],
+      "caution": "Use limited GitHub scopes, project-scoped code tools, and human approval for writes."
+    },
+    {
+      "id": "agent-browser-validation",
+      "title": "Agent browser validation",
+      "audience": "agent",
+      "purpose": "Validate UI and browser behavior through constrained automation and diagnostics.",
+      "core_tools": [
+        "playwright-mcp"
+      ],
+      "optional_tools": [
+        "chrome-devtools-mcp"
+      ],
+      "guardrails": [
+        "isolated-browser",
+        "no-user-profile",
+        "non-production"
+      ],
+      "caution": "Prefer isolated browser contexts and non-production targets before using authenticated profiles."
+    },
+    {
+      "id": "human-daily-review",
+      "title": "Human daily review",
+      "audience": "human",
+      "purpose": "Review pull requests, inspect diffs, and manage local Git state during everyday maintenance.",
+      "core_tools": [
+        "github-cli",
+        "lazygit",
+        "delta"
+      ],
+      "optional_tools": [
+        "gh-dash"
+      ],
+      "guardrails": [
+        "human-approval"
+      ],
+      "caution": "Review local diffs before push or merge; gh-dash remains a reviewed extension, not a required default."
+    },
+    {
+      "id": "human-polyrepo-work",
+      "title": "Human polyrepo work",
+      "audience": "human",
+      "purpose": "Keep many local repositories organized while preserving GitHub operations in gh.",
+      "core_tools": [
+        "github-cli",
+        "lazygit",
+        "delta"
+      ],
+      "optional_tools": [
+        "ghq"
+      ],
+      "guardrails": [
+        "project-scope",
+        "human-approval"
+      ],
+      "caution": "Use ghq for local repository organization only; do not treat it as GitHub API coverage."
+    },
+    {
+      "id": "proof-repo-support",
+      "title": "Proof repo support",
+      "audience": "both",
+      "purpose": "Support Lean proof work with scoped diagnostics, PR readback, and readable diffs.",
+      "core_tools": [
+        "lean-lsp-mcp",
+        "github-cli",
+        "delta"
+      ],
+      "optional_tools": [
+        "context7"
+      ],
+      "guardrails": [
+        "project-scope"
+      ],
+      "caution": "Bind Lean tooling to the active proof project before exposing diagnostics to agents."
+    }
+  ],
+  "evaluation_kits": [
+    {
+      "id": "agentic-workflow-evaluation",
+      "title": "Agentic workflow evaluation",
+      "audience": "both",
+      "purpose": "Evaluate stacked PRs, Actions-backed agent workflows, or a separate terminal agent runtime.",
+      "core_tools": [
+        "gh-stack",
+        "github-agentic-workflows",
+        "github-copilot-cli"
+      ],
+      "optional_tools": [],
+      "guardrails": [
+        "sandbox-repo",
+        "human-approval",
+        "non-production"
+      ],
+      "caution": "Evaluation only: use sandbox repositories, define billing and review boundaries, and avoid default rollout claims."
+    }
+  ]
+}

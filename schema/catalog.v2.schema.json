@@ -1,10 +1,11 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/Anionix/github-tool-catalog-for-ai-agents/schema/tool.schema.json",
-  "title": "GitHub Tool Catalog for AI Agents",
+  "$id": "https://github.com/Anionix/github-tool-catalog-for-ai-agents/schema/catalog.v2.schema.json",
+  "title": "GitHub Tool Catalog for AI Agents JSON Export",
   "type": "object",
   "required": [
     "schema_version",
+    "source",
     "categories",
     "tools",
     "starter_kits",
@@ -16,13 +17,34 @@
       "type": "integer",
       "const": 2
     },
+    "source": {
+      "type": "object",
+      "required": [
+        "path",
+        "sha256",
+        "schema"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "const": "catalog/tools.yml"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "schema": {
+          "type": "string",
+          "const": "schema/catalog.v2.schema.json"
+        }
+      }
+    },
     "categories": {
       "type": "array",
       "minItems": 1,
-      "uniqueItems": true,
       "items": {
-        "type": "string",
-        "minLength": 1
+        "$ref": "#/$defs/category"
       }
     },
     "tools": {
@@ -135,6 +157,52 @@
         "repo-manager"
       ]
     },
+    "category": {
+      "type": "object",
+      "required": [
+        "id",
+        "name",
+        "order"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "ratings": {
+      "type": "object",
+      "required": [
+        "agent",
+        "human",
+        "risk",
+        "status"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "agent": {
+          "$ref": "#/$defs/level"
+        },
+        "human": {
+          "$ref": "#/$defs/level"
+        },
+        "risk": {
+          "$ref": "#/$defs/risk"
+        },
+        "status": {
+          "$ref": "#/$defs/status"
+        }
+      }
+    },
     "install_method": {
       "type": "object",
       "required": [
@@ -150,6 +218,28 @@
           "type": "string",
           "minLength": 1,
           "maxLength": 240
+        }
+      }
+    },
+    "install": {
+      "type": "object",
+      "required": [
+        "display",
+        "methods"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "display": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "methods": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/install_method"
+          }
         }
       }
     },
@@ -331,15 +421,13 @@
         "repo",
         "url",
         "kind",
+        "category_id",
         "category",
         "summary",
-        "agent_usefulness",
-        "human_usefulness",
-        "risk",
-        "recommended_status",
+        "ratings",
         "install",
-        "install_methods",
         "practical",
+        "notes",
         "evidence"
       ],
       "additionalProperties": false,
@@ -363,6 +451,9 @@
         "kind": {
           "$ref": "#/$defs/kind"
         },
+        "category_id": {
+          "$ref": "#/$defs/id"
+        },
         "category": {
           "type": "string",
           "minLength": 1
@@ -371,35 +462,17 @@
           "type": "string",
           "minLength": 20
         },
-        "agent_usefulness": {
-          "$ref": "#/$defs/level"
-        },
-        "human_usefulness": {
-          "$ref": "#/$defs/level"
-        },
-        "risk": {
-          "$ref": "#/$defs/risk"
-        },
-        "recommended_status": {
-          "$ref": "#/$defs/status"
+        "ratings": {
+          "$ref": "#/$defs/ratings"
         },
         "install": {
-          "type": "string",
-          "minLength": 1,
-          "maxLength": 240
-        },
-        "install_methods": {
-          "type": "array",
-          "minItems": 1,
-          "items": {
-            "$ref": "#/$defs/install_method"
-          }
-        },
-        "notes": {
-          "type": "string"
+          "$ref": "#/$defs/install"
         },
         "practical": {
           "$ref": "#/$defs/practical"
+        },
+        "notes": {
+          "type": "string"
         },
         "evidence": {
           "type": "array",
