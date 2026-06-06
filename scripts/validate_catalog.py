@@ -9,7 +9,7 @@ from urllib.parse import urlparse
 
 from jsonschema import Draft202012Validator, FormatChecker
 
-from catalog_common import SCHEMA_PATH, load_catalog
+from catalog_common import SCHEMA_PATH, load_catalog, slugify
 
 
 def fail(message: str) -> None:
@@ -77,6 +77,11 @@ def main() -> int:
     duplicate_urls = [url for url, count in urls.items() if count > 1]
     if duplicate_urls:
         fail(f"duplicate URLs: {', '.join(sorted(duplicate_urls))}")
+
+    category_ids = Counter(slugify(category) for category in catalog["categories"])
+    duplicate_category_ids = [category_id for category_id, count in category_ids.items() if count > 1]
+    if duplicate_category_ids:
+        fail(f"duplicate generated category ids: {', '.join(sorted(duplicate_category_ids))}")
 
     tools_by_id = {tool["id"]: tool for tool in tools}
     used_categories = set()

@@ -4,16 +4,10 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import re
 import sys
 from typing import Any
 
-from catalog_common import CATALOG_JSON_PATH, CATALOG_PATH, SCHEMA_PATH, load_catalog
-
-
-def slugify(value: str) -> str:
-    slug = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
-    return slug or "category"
+from catalog_common import CATALOG_JSON_PATH, CATALOG_PATH, SCHEMA_PATH, load_catalog, slugify
 
 
 def render_tool(tool: dict[str, Any], category_ids: dict[str, str]) -> dict[str, Any]:

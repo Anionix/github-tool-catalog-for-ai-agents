@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from pathlib import Path
 from typing import Any
 
@@ -47,6 +48,11 @@ def load_catalog() -> dict[str, Any]:
     if not isinstance(data, dict):
         raise ValueError("catalog/tools.yml must contain a mapping")
     return data
+
+
+def slugify(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+    return slug or "category"
 
 
 def sort_tools(tools: list[dict[str, Any]]) -> list[dict[str, Any]]:
