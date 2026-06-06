@@ -64,7 +64,6 @@ Each category has a boundary and a review concern:
 | Git TUI | Terminal interfaces for local Git workflows. | Human ergonomics, local write behavior, and whether GitHub operations are out of scope. |
 | Git Diff and Repo Utilities | Local diff, pager, or repository organization helpers. | Scope clarity, filesystem behavior, and whether the tool changes GitHub state. |
 | Legacy / Avoid | Superseded tools kept to explain migration or non-recommendation decisions. | Avoiding accidental endorsement. |
-| Watchlist / Not yet recommended | Promising or under-reviewed tools that should not be defaults yet. | Missing evidence, preview status, broad permissions, or unclear maintenance fit. |
 
 ## Evidence Standard
 
@@ -86,6 +85,27 @@ not accepted evidence for public catalog facts. They can guide investigation,
 but the final claim must point to a public source or be described as a local
 verification result.
 
+## Practical Advice Standard
+
+Practical advice is part of the public recommendation surface. It must stay
+aligned with recommendation status, risk, public evidence, and generated output.
+
+- `daily_use` describes defaultness, not popularity. `watch` and `avoid`
+  entries cannot be routine defaults.
+- `agent_use` must name the supervised workflow and must not imply autonomous
+  write, token, browser, filesystem, or CI/CD access without guardrails.
+- `human_use` should describe the human decision, review, or maintenance task.
+- `cautious_start` describes the lowest-risk first step; it is not a safety
+  certification.
+- `guardrails` must be concrete, such as limited tokens, read-only modes,
+  project scope, isolated browsers, sandbox repositories, or human approval.
+- `pairs_with` must reference existing catalog entries and explain workflow fit
+  plus combined risk.
+- Starter kits are default-facing and must not include `watch` or `avoid`
+  entries.
+- Evaluation kits can include `watch` entries only when the caveat is visible
+  and the workflow is framed as reviewed experimentation.
+
 ## Change Review Rules
 
 Every catalog change should answer:
@@ -95,4 +115,7 @@ Every catalog change should answer:
 - What is the recommendation status and why?
 - What is the operational risk?
 - Is this a duplicate or overlap with an existing entry?
+- Do practical fields, pairs, starter kits, and evaluation kits still match the
+  status and risk?
 - Does the generated README stay in sync with `catalog/tools.yml`?
+- Does the generated JSON stay in sync with `catalog/tools.yml`?

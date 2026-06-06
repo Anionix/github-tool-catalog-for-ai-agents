@@ -40,3 +40,10 @@ body:
       description: Link to sources that support the category decision, if applicable.
     validations:
       required: false
+  - type: textarea
+    id: practical-impact
+    attributes:
+      label: Practical impact
+      description: Explain whether the category change affects starter kits, evaluation kits, pairs, or generated README grouping.
+    validations:
+      required: true
