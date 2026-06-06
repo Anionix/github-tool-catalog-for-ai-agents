@@ -12,6 +12,7 @@ CATALOG_PATH = ROOT / "catalog" / "tools.yml"
 SCHEMA_PATH = ROOT / "schema" / "tool.schema.json"
 README_PATH = ROOT / "README.md"
 CATALOG_JSON_PATH = ROOT / "dist" / "catalog.v2.json"
+CATALOG_JSON_SCHEMA_PATH = ROOT / "schema" / "catalog.v2.schema.json"
 
 
 STATUS_ORDER = {

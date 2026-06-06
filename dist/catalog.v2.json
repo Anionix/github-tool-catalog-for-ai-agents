@@ -3,7 +3,7 @@
   "source": {
     "path": "catalog/tools.yml",
     "sha256": "dadf220adac9fc4d065a248de216e047c63d3b0e162c0f9069504e85bb21fb1a",
-    "schema": "schema/tool.schema.json"
+    "schema": "schema/catalog.v2.schema.json"
   },
   "categories": [
     {
