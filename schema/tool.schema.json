@@ -3,12 +3,18 @@
   "$id": "https://github.com/Anionix/github-tool-catalog-for-ai-agents/schema/tool.schema.json",
   "title": "GitHub Tool Catalog for AI Agents",
   "type": "object",
-  "required": ["schema_version", "categories", "tools"],
+  "required": [
+    "schema_version",
+    "categories",
+    "tools",
+    "starter_kits",
+    "evaluation_kits"
+  ],
   "additionalProperties": false,
   "properties": {
     "schema_version": {
       "type": "integer",
-      "const": 1
+      "const": 2
     },
     "categories": {
       "type": "array",
@@ -25,28 +31,302 @@
       "items": {
         "$ref": "#/$defs/tool"
       }
+    },
+    "starter_kits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/kit"
+      }
+    },
+    "evaluation_kits": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/kit"
+      }
     }
   },
   "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"
+    },
     "level": {
       "type": "string",
-      "enum": ["high", "medium", "low", "watch"]
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "watch"
+      ]
     },
     "risk": {
       "type": "string",
-      "enum": ["low", "medium", "high"]
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
     },
     "status": {
       "type": "string",
-      "enum": ["recommended", "situational", "watch", "avoid"]
+      "enum": [
+        "recommended",
+        "situational",
+        "watch",
+        "avoid"
+      ]
+    },
+    "daily_use": {
+      "type": "string",
+      "enum": [
+        "routine",
+        "reviewed",
+        "specialist",
+        "not_default"
+      ]
+    },
+    "guardrail": {
+      "type": "string",
+      "enum": [
+        "limited-token",
+        "read-only-mode",
+        "project-scope",
+        "isolated-browser",
+        "human-approval",
+        "sandbox-repo",
+        "no-user-profile",
+        "non-production"
+      ]
+    },
+    "install_kind": {
+      "type": "string",
+      "enum": [
+        "codex-mcp",
+        "homebrew",
+        "gh-extension",
+        "cargo",
+        "manual"
+      ]
+    },
+    "evidence_type": {
+      "type": "string",
+      "enum": [
+        "official_repo",
+        "official_docs",
+        "package_metadata",
+        "release_notes",
+        "maintainer_source"
+      ]
     },
     "kind": {
       "type": "string",
-      "enum": ["mcp", "connector", "cli", "gh-extension", "agent-workflow", "agent-cli", "lsp-mcp", "git-tui", "git-pager", "repo-manager"]
+      "enum": [
+        "mcp",
+        "connector",
+        "cli",
+        "gh-extension",
+        "agent-workflow",
+        "agent-cli",
+        "lsp-mcp",
+        "git-tui",
+        "git-pager",
+        "repo-manager"
+      ]
+    },
+    "install_method": {
+      "type": "object",
+      "required": [
+        "kind",
+        "command"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "$ref": "#/$defs/install_kind"
+        },
+        "command": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 240
+        }
+      }
+    },
+    "pair": {
+      "type": "object",
+      "required": [
+        "tool_id",
+        "reason",
+        "combined_risk"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tool_id": {
+          "$ref": "#/$defs/id"
+        },
+        "reason": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 220
+        },
+        "combined_risk": {
+          "$ref": "#/$defs/risk"
+        }
+      }
+    },
+    "practical": {
+      "type": "object",
+      "required": [
+        "best_for",
+        "daily_use",
+        "agent_use",
+        "human_use",
+        "cautious_start",
+        "guardrails",
+        "pairs_with"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "best_for": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 4,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "daily_use": {
+          "$ref": "#/$defs/daily_use"
+        },
+        "agent_use": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 260
+        },
+        "human_use": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 260
+        },
+        "cautious_start": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 260
+        },
+        "guardrails": {
+          "type": "array",
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/guardrail"
+          }
+        },
+        "pairs_with": {
+          "type": "array",
+          "maxItems": 3,
+          "items": {
+            "$ref": "#/$defs/pair"
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "required": [
+        "type",
+        "url"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "$ref": "#/$defs/evidence_type"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "pattern": "^https://"
+        },
+        "confirmed_at": {
+          "type": "string",
+          "format": "date"
+        },
+        "note": {
+          "type": "string",
+          "maxLength": 160
+        }
+      }
+    },
+    "kit": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "audience",
+        "purpose",
+        "core_tools",
+        "optional_tools",
+        "guardrails",
+        "caution"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 3,
+          "maxLength": 80
+        },
+        "audience": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "human",
+            "both"
+          ]
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 220
+        },
+        "core_tools": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "optional_tools": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/id"
+          }
+        },
+        "guardrails": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "$ref": "#/$defs/guardrail"
+          }
+        },
+        "caution": {
+          "type": "string",
+          "minLength": 20,
+          "maxLength": 260
+        }
+      }
     },
     "tool": {
       "type": "object",
       "required": [
+        "id",
         "name",
         "repo",
         "url",
@@ -57,10 +337,16 @@
         "human_usefulness",
         "risk",
         "recommended_status",
-        "install"
+        "install",
+        "install_methods",
+        "practical",
+        "evidence"
       ],
       "additionalProperties": false,
       "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
         "name": {
           "type": "string",
           "minLength": 1
@@ -99,10 +385,28 @@
         },
         "install": {
           "type": "string",
-          "minLength": 1
+          "minLength": 1,
+          "maxLength": 240
+        },
+        "install_methods": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/install_method"
+          }
         },
         "notes": {
           "type": "string"
+        },
+        "practical": {
+          "$ref": "#/$defs/practical"
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
         }
       }
     }

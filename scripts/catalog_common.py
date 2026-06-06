@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CATALOG_PATH = ROOT / "catalog" / "tools.yml"
 SCHEMA_PATH = ROOT / "schema" / "tool.schema.json"
 README_PATH = ROOT / "README.md"
+CATALOG_JSON_PATH = ROOT / "dist" / "catalog.v2.json"
 
 
 STATUS_ORDER = {

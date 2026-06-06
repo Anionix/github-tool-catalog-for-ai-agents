@@ -329,10 +329,6 @@ by the official GitHub CLI.
 - Install: `brew install hub`
 - Notes: Keep only to explain migration pressure toward gh; do not recommend for new GitHub CLI workflows.
 
-### Watchlist / Not yet recommended
-
-_No entries yet._
-
 ## Validation
 
 ```bash
