@@ -12,7 +12,7 @@ from catalog_common import load_catalog
 
 
 def check_url(url: str) -> tuple[bool, str]:
-    headers = {"User-Agent": "Anionix-awesome-github-tools-link-check/1.0"}
+    headers = {"User-Agent": "Anionix-github-tool-catalog-for-ai-agents-link-check/1.0"}
     for method in ("HEAD", "GET"):
         request = urllib.request.Request(url, method=method, headers=headers)
         try:

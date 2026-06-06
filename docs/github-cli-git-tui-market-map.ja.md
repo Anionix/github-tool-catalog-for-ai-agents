@@ -4,7 +4,7 @@
 
 ## 目的と範囲
 
-このメモは、GitHub CLI、`gh` 拡張、Git TUI、diff / repo 補助ツール、agentic workflow 系ツールを、`awesome-github-tools` のカタログにどう反映するかを整理する公開用の調査メモです。
+このメモは、GitHub CLI、`gh` 拡張、Git TUI、diff / repo 補助ツール、agentic workflow 系ツールを、`github-tool-catalog-for-ai-agents` のカタログにどう反映するかを整理する公開用の調査メモです。
 
 `README.md` は `catalog/tools.yml` から生成される短いカタログのままにし、背景説明や採用判断の考え方はこの文書に分けます。
 

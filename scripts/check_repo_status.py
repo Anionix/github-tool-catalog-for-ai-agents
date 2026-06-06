@@ -19,7 +19,7 @@ def github_request(repo: str) -> dict[str, object]:
         f"https://api.github.com/repos/{repo}",
         headers={
             "Accept": "application/vnd.github+json",
-            "User-Agent": "Anionix-awesome-github-tools-repo-status/1.0",
+            "User-Agent": "Anionix-github-tool-catalog-for-ai-agents-repo-status/1.0",
             **auth_header(),
         },
     )

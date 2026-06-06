@@ -1,6 +1,6 @@
-# Awesome GitHub Tools
+# GitHub Tool Catalog for AI Agents
 
-A strict, machine-readable catalog of GitHub-adjacent tools for AI agents and the humans supervising them.
+A small, conservative, machine-readable catalog of GitHub-adjacent tools for AI agents and the humans supervising them.
 
 > This README is generated from `catalog/tools.yml`. Edit the catalog, then run `python scripts/render_readme.py`.
 
